@@ -1,6 +1,7 @@
 # Windows variables.
 WIN_USR := dev
 WIN_IP := 172.16.140.129
+WIN_PSEXEC := psexec64 -s -d -i 1 
 
 # SSH variables.
 
@@ -17,7 +18,7 @@ SOURCES := $(wildcard $(SRC_DIR)/*.c)
 OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SOURCES))
 
 CC := x86_64-w64-mingw32-gcc
-CFLAGS := -g -Wall -Wextra -pedantic
+CFLAGS := -g -Wall -Wextra -pedantic --machine-windows
 
 # Begin targets.
 
@@ -26,7 +27,7 @@ CFLAGS := -g -Wall -Wextra -pedantic
 all: | exe push run
 
 run: 
-	ssh -i $(SSH_KEY) $(WIN_USR)@$(WIN_IP) C:/Users/$(WIN_USR)/Desktop/$(EXECUTABLE).exe
+	ssh -i $(SSH_KEY) $(WIN_USR)@$(WIN_IP) "C:/Users/$(WIN_USR)/Desktop/$(EXECUTABLE).exe"
 
 push: 
 	scp -i $(SSH_KEY) ./build/$(EXECUTABLE).exe $(WIN_USR)@$(WIN_IP):C:/Users/$(WIN_USR)/Desktop/$(EXECUTABLE).exe
